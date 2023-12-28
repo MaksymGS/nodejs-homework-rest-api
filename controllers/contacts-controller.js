@@ -1,0 +1,68 @@
+import * as contactsService from "../models/contacts.js";
+import { HttpError } from "../helpers/index.js";
+
+const getContacts = async (req, res, next) => {
+  try {
+    const result = await contactsService.listContacts();
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getContactById = async (req, res, next) => {
+  try {
+    const { contactId } = req.params;
+    const result = await contactsService.getContactById(contactId);
+    if (!result) {
+      throw HttpError(404);
+    }
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const addContact = async (req, res, next) => {
+  try {
+    const { name, email, phone } = req.body;
+    const result = await contactsService.addContact(name, email, phone);
+        res.status(201).json(result)
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateContact = async (req, res, next) => {
+  try {
+    const { contactId } = req.params;
+    const result = await contactsService.updateContactById(contactId, req.body);
+    if (!result) {
+      throw HttpError(404);
+    }
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const removeContact = async (req, res, next) => {
+  try {
+    const { contactId } = req.params;
+    const result = await contactsService.removeContact(contactId);
+    if (!result) {
+      throw HttpError(404);
+    }
+    res.json({"message": "contact deleted"});
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default {
+  getContacts,
+  getContactById,
+  addContact,
+  updateContact,
+  removeContact,
+};

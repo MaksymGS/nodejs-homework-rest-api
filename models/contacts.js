@@ -29,6 +29,7 @@ export const removeContact = async (contactId) => {
   return removedContact;
 };
 
+//переписати на роботу з об'єктом
 export const addContact = async (name, email, phone) => {
   const contactsList = await listContacts();
   const newContact = { name, email, phone, id: nanoid() };
@@ -36,3 +37,14 @@ export const addContact = async (name, email, phone) => {
   await updateContacts(contactsList);
   return newContact;
 };
+
+export const updateContactById = async (contactId, updateData) => {
+  const contactsList = await listContacts();
+  const idx = contactsList.findIndex(item => item.id === contactId);
+  if (idx === -1) {
+      return null;
+  }
+  contactsList[idx] = { ...contactsList[idx], ...updateData };
+  await updateContacts(contactsList);
+  return contactsList[idx];
+}
