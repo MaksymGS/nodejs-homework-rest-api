@@ -29,7 +29,6 @@ export const removeContact = async (contactId) => {
   return removedContact;
 };
 
-//переписати на роботу з об'єктом
 export const addContact = async (name, email, phone) => {
   const contactsList = await listContacts();
   const newContact = { name, email, phone, id: nanoid() };
