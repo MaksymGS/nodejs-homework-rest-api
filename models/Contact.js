@@ -35,7 +35,7 @@ export const contactUpdateSchema = Joi.object({
   favorite: Joi.boolean()
 });
 
-export const contactUpdateFaavoriteSchema = Joi.object({
+export const contactUpdateFavoriteSchema = Joi.object({
   favorite: Joi.boolean().required(),
 });
 

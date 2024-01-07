@@ -4,7 +4,7 @@ import { validateBody, isEmptyBody } from "../../decorators/index.js";
 import {
   contactAddSchema,
   contactUpdateSchema,
-  contactUpdateFaavoriteSchema,
+  contactUpdateFavoriteSchema,
 } from "../../models/Contact.js";
 import {isValidId } from "../../middlewares/index.js";
 
@@ -35,7 +35,7 @@ contactsRouter.patch(
   "/:id/favorite",
   isValidId,
   isEmptyBody("missing field favorite"),
-  validateBody(contactUpdateFaavoriteSchema),
-  contactsController.updateContact
+  validateBody(contactUpdateFavoriteSchema),
+  contactsController.updateStatusContact
 );
 export default contactsRouter;
