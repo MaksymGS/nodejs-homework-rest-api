@@ -12,5 +12,11 @@ authRouter.post(
   validateBody(userSignupSchema),
   authController.signup
 );
+authRouter.post(
+  "/signin",
+  isEmptyBody("body must have fields"),
+  validateBody(userSigninSchema),
+  authController.signin
+);
 
 export default authRouter;
