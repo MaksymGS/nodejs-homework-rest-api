@@ -3,6 +3,7 @@ import { hadleSaveError, addUpdateSettings } from "./hooks.js";
 import Joi from "joi";
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const subscriptionList = ["starter", "pro", "business"];
 
 const userSchema = new Schema(
   {
@@ -21,7 +22,9 @@ const userSchema = new Schema(
       enum: ["starter", "pro", "business"],
       default: "starter",
     },
-    token: String,
+    token: {
+      type: String,
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -50,6 +53,13 @@ export const userSigninSchema = Joi.object({
     .min(7)
     .required()
     .messages({ "any.required": "missing required password field" }),
+});
+
+export const subsUpdateSchema = Joi.object({
+  subscription: Joi.string()
+    .valid(...subscriptionList)
+    .required()
+    .messages({ "any.required": "missing required subscription field" }),
 });
 
 const User = model("user", userSchema);
