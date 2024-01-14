@@ -12,7 +12,8 @@ const contactSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'user',
       required: true
-    }
+    },
+    // avatar: {type: String, required: true}
   },
   { versionKey: false, timestamps: true }
 );
