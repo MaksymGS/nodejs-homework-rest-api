@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import gravatar from "gravatar";
 import fs from "fs/promises";
 import path from "path";
+import jimp from "jimp";
 
 const { JWT_SECRET } = process.env;
 const avatarsPath = path.resolve("public", "avatars");
@@ -84,6 +85,10 @@ const updateSubscription = async (req, res) => {
 const updateAvatar = async (req, res) => {
   const { _id } = req.user;
   const { path: oldPath, filename } = req.file;
+
+  const imageAvatar = await jimp.read(oldPath);
+  imageAvatar.resize(250, 250, jimp.RESIZE_BEZIER);
+  await imageAvatar.writeAsync(oldPath);
 
   const newPath = path.join(avatarsPath, filename);
   await fs.rename(oldPath, newPath);
