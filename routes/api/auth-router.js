@@ -31,8 +31,6 @@ authRouter.patch(
   "/avatars",
   authenticate,
   upload.single("avatar"),
-  // isEmptyBody("body must have fields"),
-  // validateBody(subsUpdateSchema),
   authController.updateAvatar
 );
 
