@@ -1,16 +1,32 @@
 import express from "express";
 import { validateBody, isEmptyBody } from "../../decorators/index.js";
-import { authenticate, upload } from "../../middlewares/index.js";
-import { userSignupSchema, userSigninSchema, subsUpdateSchema } from "../../models/User.js";
+import {
+  authenticate,
+  isFileUploaded,
+  upload,
+} from "../../middlewares/index.js";
+import {
+  userSignupSchema,
+  userSigninSchema,
+  subsUpdateSchema,
+  userEmailSchema,
+} from "../../models/User.js";
 import authController from "../../controllers/auth-controller.js";
 
 const authRouter = express.Router();
 
 authRouter.post(
   "/register",
-    isEmptyBody("body must have fields"),
+  isEmptyBody("body must have fields"),
   validateBody(userSignupSchema),
   authController.signup
+);
+authRouter.get("/verify/:verificationToken", authController.verify);
+authRouter.post(
+  "/verify",
+  isEmptyBody("body must have fields"),
+  validateBody(userEmailSchema),
+  authController.resendVerifyEmail
 );
 authRouter.post(
   "/login",
@@ -31,8 +47,7 @@ authRouter.patch(
   "/avatars",
   authenticate,
   upload.single("avatar"),
-  // isEmptyBody("body must have fields"),
-  // validateBody(subsUpdateSchema),
+  isFileUploaded,
   authController.updateAvatar
 );
 

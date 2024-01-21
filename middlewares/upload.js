@@ -18,16 +18,17 @@ const limits = {
 };
 const fileFilter = (req, file, cb) => {
   const extention = file.originalname.split(".").pop();
-  console.log(extention);
   if (extention === "exe") {
+    cb(null, false);
     cb(HttpError(400, ".exe not allowed extension"));
   }
+  cb(null, true);
 };
 
 const upload = multer({
   storage,
   limits,
-  //   fileFilter,
+  fileFilter,
 });
 
 export default upload;
